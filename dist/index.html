@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>keithogram</title>
+	<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+<body>
+	<h1>KEITHoGRAM</h1>
+	<section id="login">
+		<h2>LOGIN</h2>
+		<form id="login-form">
+			<input type="text" id="login-name">
+			<input type="text" id="login-password">
+			<button type="submit" id="login-button">enter login
+			</button>
+		</form>
+	</section>
+		
+	<section id="register">
+		<h2>REGISTER</h2>
+		<form>
+			<input type="text" id="register-name">
+			<input type="text" id="login-password">
+			<input type="text" id="login-password-check">
+			<button type="submit" id="register-button">register
+			</button>
+		</form>
+	</section>
+
+	<section id="addpost">
+		<form>
+			<input type="text" id="post-url">
+			<input type="text" id="post-caption">
+			<button type="submit" id="post-button">add post
+			</button>
+		</form>
+	</section>
+	
+	<section id="feed">
+		<h2>FEED</h2>
+	</section>
+
+	<section id="profile">
+		<h2>PROFILE</h2>
+	</section>
+	
+	<script type="text/template" id="user-template">
+	</script>
+	<script type="text/template" id="post-template">
+			<div class="image-row" data-cid="<%= model._id %>">
+				<img src="<%= model.get('url') %>">
+			<div class="image-caption">
+				<%= model.get('caption') %>
+			</div>
+			<div class="comment-list">
+			</div>
+			<div class='comment-form-wrapper'>
+			<form class="comment-form" data-form-cid="<%= model.get('_id')%>">
+				<input type="text" class="comment-input">
+				<button type="submit" class="comment-button">Add Comment</button>
+			</form>
+			</div>
+	</script>
+	<script type="text/template" id="comment-template">
+		<div class="comment-row">
+			<%= model.get('user_id') + ' ' + model.get('text') %>
+		</div>
+	</script>
+
+	<script type="text/javascript" src="scripts/all.js"></script>
+</body>
+</html>
