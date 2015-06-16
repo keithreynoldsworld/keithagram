@@ -79,18 +79,6 @@ $(document).ready(function() {
 	// 	myRouter.navigate('profile/'+ 'name',option);
 
 	// });
-	$('#addpost').on('submit', function(e) {
-		e.preventDefault();
-
-		var newpost = new POSTMODEL({
-			url: $('#post-url').val(),
-			caption: $('#post-caption').val()
-		});
-		newpost.save();
-		postlist.add(newpost);
-		
-	});
-
 	postlist.fetch({
 		
 		success: function() {
@@ -103,26 +91,40 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	
+	$('#addpost').on('submit', function(e) {
+		e.preventDefault();
+
+		var newpost = new POSTMODEL({
+			url: $('#post-url').val(),
+			caption: $('#post-caption').val()
+		});
+		newpost.save();
+		postlist.add(newpost);
+		
+	});
+
+	
 	console.log(postlist);
 	console.log(commentlist);
 	console.log(userlist);
 
-
-
-	postlist.on('add', function(newpost) {
-		var posthtml = pbuilder({model: newpost});
+	postlist.on('add', function(newPost) {
+		var posthtml = pbuilder({model: newPost});
 		console.log("picutre addeded");
 		$('#feed').append(posthtml);
-		$('#user').append(posthtml);
+		
 
-		$(".comment-button").on('submit', function(e) {
-			console.log("button pressed");
+		$('[data-form-id="'+newPost.cid+'"]').on('submit', function(e) {
 			e.preventDefault();
+			console.log("button pressed");
+			
 			var COMMENTINPUT = $(this).find('.comment-input');
 
 			var newcomment = new COMMENTMODEL({
 				text: COMMENTINPUT.val(),
-				post_id: newpost.get('_id')
+				post_id: newPost.cid
 			});
 			newcomment.save();
 			commentlist.add(newcomment);
@@ -130,13 +132,13 @@ $(document).ready(function() {
 
 		})
 	});
-
-	commentlist.on('add', function(newcomment) {
+	
+	commentlist.on('add', function(newCOMMENT) {
 		console.log("comment added");
-		var commenthtml = cbuilder({model: newcomment});
-		var post_id = newcomment.get('post_id');
-		var imageModel = postlist.get('post_id');
+		var commenthtml = cbuilder({model: newCOMMENT});
+		var post_id = newCOMMENT.get('post_id');
+		var postMODEL = postlist.get(post_id);
 
-		$("[data-cid='"+newpost._id+"''] .comment-list").append(commenthtml);
+		$("[data-cid='"+postMODEL.cid+"'] .comment-list").append(commenthtml);
 	});
 });

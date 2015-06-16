@@ -47,15 +47,15 @@
 	<script type="text/template" id="user-template">
 	</script>
 	<script type="text/template" id="post-template">
-			<div class="image-row" data-cid="<%= model._id %>">
+			<div class="image-row" data-cid="<%= model.cid %>">
 				<img src="<%= model.get('url') %>">
 			<div class="image-caption">
 				<%= model.get('caption') %>
 			</div>
-			<div class="comment-list">
+			<div class="comment-list" data-cid="<%= model.cid %>">
 			</div>
 			<div class='comment-form-wrapper'>
-			<form class="comment-form" data-form-cid="<%= model.get('_id')%>">
+			<form class="comment-form" data-form-id="<%= model.cid %>">
 				<input type="text" class="comment-input">
 				<button type="submit" class="comment-button">Add Comment</button>
 			</form>
@@ -63,7 +63,7 @@
 	</script>
 	<script type="text/template" id="comment-template">
 		<div class="comment-row">
-			<%= model.get('user_id') + ' ' + model.get('text') %>
+			<%= model.get('text') %>
 		</div>
 	</script>
 
