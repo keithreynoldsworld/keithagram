@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>keithogram</title>
-	<link rel="stylesheet" href="styles.css" type="text/css">
+	<title>hgfkeithogram</title>
+	<link rel="stylesheet" href="styles/styles.css" type="text/css">
 </head>
 <body>
+<div id="wrapper">
 	<h1>KEITHoGRAM</h1>
 	<section id="login">
 		<h2>LOGIN</h2>
@@ -14,14 +15,14 @@
 			<button type="submit" id="login-button">enter login
 			</button>
 		</form>
+		<span id="whoops"></span>
 	</section>
 		
 	<section id="register">
 		<h2>REGISTER</h2>
 		<form>
 			<input type="text" id="register-name">
-			<input type="text" id="login-password">
-			<input type="text" id="login-password-check">
+			<input type="text" id="register-password">
 			<button type="submit" id="register-button">register
 			</button>
 		</form>
@@ -43,7 +44,7 @@
 	<section id="profile">
 		<h2>PROFILE</h2>
 	</section>
-	
+</div>	
 	<script type="text/template" id="user-template">
 	</script>
 	<script type="text/template" id="post-template">

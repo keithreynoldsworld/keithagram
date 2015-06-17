@@ -5,7 +5,7 @@ var Backbone = require("backbone");
 var _ = require("backbone/node_modules/underscore");
 Backbone.$ = $;
 
-var upost = require("../models/usermodel.js");
+var upost = require("../models/UserModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: upost,

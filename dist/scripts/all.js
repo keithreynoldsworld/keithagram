@@ -12644,13 +12644,13 @@ var Backbone = require("backbone");
 var _ = require("backbone/node_modules/underscore");
 Backbone.$ = $;
 
-var cpost = require("../models/commentmodel.js");
+var cpost = require("../models/CommentModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: cpost,
 	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds1'
 });
-},{"../models/commentmodel.js":8,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],5:[function(require,module,exports){
+},{"../models/CommentModel.js":8,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],5:[function(require,module,exports){
 
 
 var $ = require("jquery");
@@ -12658,13 +12658,13 @@ var Backbone = require("backbone");
 var _ = require("backbone/node_modules/underscore");
 Backbone.$ = $;
 
-var ppost = require("../models/postmodel.js");
+var ppost = require("../models/PostModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: ppost,
 	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2'
 });
-},{"../models/postmodel.js":9,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],6:[function(require,module,exports){
+},{"../models/PostModel.js":9,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],6:[function(require,module,exports){
 
 
 var $ = require("jquery");
@@ -12672,27 +12672,27 @@ var Backbone = require("backbone");
 var _ = require("backbone/node_modules/underscore");
 Backbone.$ = $;
 
-var upost = require("../models/usermodel.js");
+var upost = require("../models/UserModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: upost,
 	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds3'
 });
-},{"../models/usermodel.js":10,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],7:[function(require,module,exports){
+},{"../models/UserModel.js":10,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],7:[function(require,module,exports){
 var $ = require("jquery");
 var Backbone = require("backbone");
 var _ = require("backbone/node_modules/underscore");
 Backbone.$ = $;
 
 $(document).ready(function() {
-//requirevariable
+    var currentuser = {current:"nobody"};
 
-	var POSTCOLLECTION = require('./collections/postcollection.js');
-	var POSTMODEL = require('./models/postmodel.js');
-	var COMMENTCOLLECTION = require('./collections/commentcollection.js');
-	var COMMENTMODEL = require('./models/commentmodel.js');
-	var USERCOLLECTION = require('./collections/usercollection.js');
-	var USERMODEL = require('./models/usermodel.js');
+	var POSTCOLLECTION = require('./collections/PostCollection.js');
+	var POSTMODEL = require('./models/PostModel.js');
+	var COMMENTCOLLECTION = require('./collections/CommentCollection.js');
+	var COMMENTMODEL = require('./models/CommentModel.js');
+	var USERCOLLECTION = require('./collections/UserCollection.js');
+	var USERMODEL = require('./models/UserModel.js');
 
 
 	var pbuilder = _.template($('#post-template').html());
@@ -12709,9 +12709,7 @@ $(document).ready(function() {
 			'login':          'login',   
 			'register':         'register',   
 			'feed':      'feed',  
-			'profile/:user': 'profile',  
-			
-				
+			'profile/:user': 'profile', 			
 		},
 
 		login: function() {
@@ -12754,22 +12752,41 @@ $(document).ready(function() {
 	var myRouter = new app();
 	Backbone.history.start();
 
-	// $('#profile-button').click(function(e) {
-	// 	var option = {trigger: true};
-	// 	var profile = $('#profile').val();
-	// 	myRouter.navigate('profile/'+ 'name',option);
 
-	// });
-	postlist.fetch({
+	userlist.fetch();
 		
+	$('#login-form').on('submit', function(e){
+		e.preventDefault();
+		userIsInList = users.findWhere({
+			name: $('#login-name').val(),
+			password: $('#login-password').val()
+		});
+		if(userIsInList){
+			$('#whoops').hide();
+			currentuser.current = $('#login-name').val();
+			userIsInList.set({logged_in: true});
+			var user =  $('#login-name').val();				
+			myRouter.navigate('profile/'+user, {trigger: true});
+		}
+		else{$('#whoops').html('Your username and or password is incorrect.');
+		}			
+	});
+
+	$('#signup').on('submit', function(e){
+		e.preventDefault();
+		var newUser = new USERMODEL({
+		name: $('#register-name').val(),
+		password: $('#register-password').val()
+		});
+		newUser.save();
+		currentuser.current=$('#register-name').val();
+		var query =  $('#register-name').val();
+		myRouter.navigate('profile/'+query, {trigger: true})
+	});
+
+	postlist.fetch({
 		success: function() {
-			commentlist.fetch({
-			
-				success: function() {
-					userlist.fetch();
-					
-				} 
-			});
+			commentlist.fetch();
 		}
 	});
 
@@ -12779,7 +12796,8 @@ $(document).ready(function() {
 
 		var newpost = new POSTMODEL({
 			url: $('#post-url').val(),
-			caption: $('#post-caption').val()
+			caption: $('#post-caption').val(),
+			name: currentuser.current
 		});
 		newpost.save();
 		postlist.add(newpost);
@@ -12809,8 +12827,6 @@ $(document).ready(function() {
 			});
 			newcomment.save();
 			commentlist.add(newcomment);
-			
-
 		})
 	});
 	
@@ -12822,8 +12838,27 @@ $(document).ready(function() {
 
 		$("[data-cid='"+postMODEL.cid+"'] .comment-list").append(commenthtml);
 	});
+
 });
-},{"./collections/commentcollection.js":4,"./collections/postcollection.js":5,"./collections/usercollection.js":6,"./models/commentmodel.js":8,"./models/postmodel.js":9,"./models/usermodel.js":10,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],8:[function(require,module,exports){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+},{"./collections/CommentCollection.js":4,"./collections/PostCollection.js":5,"./collections/UserCollection.js":6,"./models/CommentModel.js":8,"./models/PostModel.js":9,"./models/UserModel.js":10,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],8:[function(require,module,exports){
 var $ = require("jquery");
 var Backbone = require("backbone");
 var _ = require("backbone/node_modules/underscore");
@@ -12851,12 +12886,14 @@ module.exports = Backbone.Model.extend({
 		_id: null,
 		url: 'http://www.journalism.columbia.edu/system/photos/2990/original/Coronel_Sheila.gif?1365706240',
 		caption: null,
+		createdAt: null,
 		no_likes: 0,
 		user_id: null
 	},
 	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2',
 	idAttribute: '_id'
 });
+
 },{"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],10:[function(require,module,exports){
 var $ = require("jquery");
 var Backbone = require("backbone");
@@ -12869,11 +12906,13 @@ module.exports = Backbone.Model.extend({
 		name: null,
 		email: null,
 		password: null,
-		followers: {},
-		following: {},
-		likes: {}
+		createdAt:null,
+		logged_in: false
+		
 	},
 	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds3',
 	idAttribute: '_id'
 });
+
+	
 },{"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}]},{},[7]);

@@ -4,7 +4,7 @@ var Backbone = require("backbone");
 var _ = require("backbone/node_modules/underscore");
 Backbone.$ = $;
 
-var cpost = require("../models/commentmodel.js");
+var cpost = require("../models/CommentModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: cpost,

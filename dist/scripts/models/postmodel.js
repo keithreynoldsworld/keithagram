@@ -8,6 +8,7 @@ module.exports = Backbone.Model.extend({
 		_id: null,
 		url: 'http://www.journalism.columbia.edu/system/photos/2990/original/Coronel_Sheila.gif?1365706240',
 		caption: null,
+		createdAt: null,
 		no_likes: 0,
 		user_id: null
 	},

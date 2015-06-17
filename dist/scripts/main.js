@@ -4,14 +4,14 @@ var _ = require("backbone/node_modules/underscore");
 Backbone.$ = $;
 
 $(document).ready(function() {
-//requirevariable
+    var currentuser = {current:"nobody"};
 
-	var POSTCOLLECTION = require('./collections/postcollection.js');
-	var POSTMODEL = require('./models/postmodel.js');
-	var COMMENTCOLLECTION = require('./collections/commentcollection.js');
-	var COMMENTMODEL = require('./models/commentmodel.js');
-	var USERCOLLECTION = require('./collections/usercollection.js');
-	var USERMODEL = require('./models/usermodel.js');
+	var POSTCOLLECTION = require('./collections/PostCollection.js');
+	var POSTMODEL = require('./models/PostModel.js');
+	var COMMENTCOLLECTION = require('./collections/CommentCollection.js');
+	var COMMENTMODEL = require('./models/CommentModel.js');
+	var USERCOLLECTION = require('./collections/UserCollection.js');
+	var USERMODEL = require('./models/UserModel.js');
 
 
 	var pbuilder = _.template($('#post-template').html());
@@ -28,9 +28,7 @@ $(document).ready(function() {
 			'login':          'login',   
 			'register':         'register',   
 			'feed':      'feed',  
-			'profile/:user': 'profile',  
-			
-				
+			'profile/:user': 'profile', 			
 		},
 
 		login: function() {
@@ -73,22 +71,41 @@ $(document).ready(function() {
 	var myRouter = new app();
 	Backbone.history.start();
 
-	// $('#profile-button').click(function(e) {
-	// 	var option = {trigger: true};
-	// 	var profile = $('#profile').val();
-	// 	myRouter.navigate('profile/'+ 'name',option);
 
-	// });
-	postlist.fetch({
+	userlist.fetch();
 		
+	$('#login-form').on('submit', function(e){
+		e.preventDefault();
+		userIsInList = users.findWhere({
+			name: $('#login-name').val(),
+			password: $('#login-password').val()
+		});
+		if(userIsInList){
+			$('#whoops').hide();
+			currentuser.current = $('#login-name').val();
+			userIsInList.set({logged_in: true});
+			var user =  $('#login-name').val();				
+			myRouter.navigate('profile/'+user, {trigger: true});
+		}
+		else{$('#whoops').html('Your username and or password is incorrect.');
+		}			
+	});
+
+	$('#signup').on('submit', function(e){
+		e.preventDefault();
+		var newUser = new USERMODEL({
+		name: $('#register-name').val(),
+		password: $('#register-password').val()
+		});
+		newUser.save();
+		currentuser.current=$('#register-name').val();
+		var query =  $('#register-name').val();
+		myRouter.navigate('profile/'+query, {trigger: true})
+	});
+
+	postlist.fetch({
 		success: function() {
-			commentlist.fetch({
-			
-				success: function() {
-					userlist.fetch();
-					
-				} 
-			});
+			commentlist.fetch();
 		}
 	});
 
@@ -98,7 +115,8 @@ $(document).ready(function() {
 
 		var newpost = new POSTMODEL({
 			url: $('#post-url').val(),
-			caption: $('#post-caption').val()
+			caption: $('#post-caption').val(),
+			name: currentuser.current
 		});
 		newpost.save();
 		postlist.add(newpost);
@@ -128,8 +146,6 @@ $(document).ready(function() {
 			});
 			newcomment.save();
 			commentlist.add(newcomment);
-			
-
 		})
 	});
 	
@@ -141,4 +157,22 @@ $(document).ready(function() {
 
 		$("[data-cid='"+postMODEL.cid+"'] .comment-list").append(commenthtml);
 	});
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
