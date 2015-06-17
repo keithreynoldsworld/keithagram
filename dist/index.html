@@ -8,10 +8,10 @@
 <div id="wrapper">
 	<h1>KEITHoGRAM</h1>
 	<section id="login">
-		<h2>LOGIN</h2>
+		<h2>LoGiN or <a href="#register">REGisTeR</a></h2>
 		<form id="login-form">
-			<input type="text" id="login-name">
-			<input type="text" id="login-password">
+			<input type="text" id="login-name" placeholder="username"><br/>
+			<input type="text" id="login-password" placeholder="password"><br/>
 			<button type="submit" id="login-button">enter login
 			</button>
 		</form>
@@ -20,9 +20,9 @@
 		
 	<section id="register">
 		<h2>REGISTER</h2>
-		<form>
-			<input type="text" id="register-name">
-			<input type="text" id="register-password">
+		<form id="register-form">
+			<input type="text" id="register-name" placeholder="username"><br/>
+			<input type="text" id="register-password" placeholder="password"><br/>
 			<button type="submit" id="register-button">register
 			</button>
 		</form>
@@ -30,8 +30,8 @@
 
 	<section id="addpost">
 		<form>
-			<input type="text" id="post-url">
-			<input type="text" id="post-caption">
+			<input type="text" id="post-url" placeholder="valid image url"><br/>
+			<input type="text" id="post-caption" placeholder="witty caption"><br/>
 			<button type="submit" id="post-button">add post
 			</button>
 		</form>
@@ -57,7 +57,7 @@
 			</div>
 			<div class='comment-form-wrapper'>
 			<form class="comment-form" data-form-id="<%= model.cid %>">
-				<input type="text" class="comment-input">
+				<input type="text" class="comment-input" placeholder="comment here">
 				<button type="submit" class="comment-button">Add Comment</button>
 			</form>
 			</div>

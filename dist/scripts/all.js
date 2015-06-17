@@ -12757,7 +12757,8 @@ $(document).ready(function() {
 		
 	$('#login-form').on('submit', function(e){
 		e.preventDefault();
-		userIsInList = users.findWhere({
+		console.log(userlist);
+		userIsInList = userlist.findWhere({
 			name: $('#login-name').val(),
 			password: $('#login-password').val()
 		});
@@ -12772,7 +12773,7 @@ $(document).ready(function() {
 		}			
 	});
 
-	$('#signup').on('submit', function(e){
+	$('#register-form').on('submit', function(e){
 		e.preventDefault();
 		var newUser = new USERMODEL({
 		name: $('#register-name').val(),

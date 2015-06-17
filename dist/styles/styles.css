@@ -1,10 +1,24 @@
+
+
 img {
 	width: 400px;
 	border-radius: 25%;
+	border: solid red 5px;
+	background: black;
+	margin-top: 50px;
+}
+
+input{
+	font-size: 40px;
+	background: purple;
+	color: white;
 }
 
 body{
 	background: pink;
+	text-align: center;
+	color: blue;
+	font-size: 25px;
 }
 
 button {
@@ -27,6 +41,7 @@ button {
   padding: 10px 20px 10px 20px;
   border: solid #1971a8 2px;
   text-decoration: none;
+  margin: 7px;
 }
 
 button:hover {
@@ -43,5 +58,13 @@ button:hover {
 	margin-left: auto;
 	margin-right: auto;
 	background: yellow;
-	width: 400px;
+	width: 450px;
+	border: solid orange 5px;
+}
+
+.image-caption {
+	color: red;
+	background: pink;
+	border-radius: 25px;
+	padding: 5px;
 }
