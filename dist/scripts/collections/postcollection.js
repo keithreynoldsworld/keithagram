@@ -9,5 +9,5 @@ var ppost = require("../models/PostModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: ppost,
-	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2'
+	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2a'
 });

@@ -22,6 +22,8 @@ $(document).ready(function() {
 	var commentlist = new COMMENTCOLLECTION();
 	var userlist = new USERCOLLECTION();
 
+
+
 	var routerConfig = {
 		routes: {
 			'':              'login',
@@ -84,13 +86,15 @@ $(document).ready(function() {
 		if(userIsInList){
 			$('#whoops').hide();
 			currentuser.current = $('#login-name').val();
-			userIsInList.set({logged_in: true});
+			//userIsInList.set({logged_in: true});
 			var user =  $('#login-name').val();				
 			myRouter.navigate('profile/'+user, {trigger: true});
 		}
 		else{$('#whoops').html('Your username and or password is incorrect.');
 		}			
 	});
+
+	
 
 	$('#register-form').on('submit', function(e){
 		e.preventDefault();
@@ -110,6 +114,7 @@ $(document).ready(function() {
 		}
 	});
 
+
 	
 	$('#addpost').on('submit', function(e) {
 		e.preventDefault();
@@ -121,8 +126,11 @@ $(document).ready(function() {
 		});
 		newpost.save();
 		postlist.add(newpost);
+		myRouter.navigate('feed', {trigger: true})
 		
 	});
+
+
 
 	
 	console.log(postlist);
@@ -149,16 +157,20 @@ $(document).ready(function() {
 			commentlist.add(newcomment);
 		})
 	});
+
+
+		
 	
 	commentlist.on('add', function(newCOMMENT) {
 		console.log("comment added");
 		var commenthtml = cbuilder({model: newCOMMENT});
 		var post_id = newCOMMENT.get('post_id');
-		var postMODEL = postlist.get(post_id);
+		var postMODEL = postlist.get('post_id');
 
-		$("[data-cid='"+postMODEL.cid+"'] .comment-list").append(commenthtml);
+		$("[data-cid='"+post_id+"'] .comment-list").append(commenthtml);
 	});
 
+	
 });
 
 

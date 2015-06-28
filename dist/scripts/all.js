@@ -12648,7 +12648,7 @@ var cpost = require("../models/CommentModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: cpost,
-	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds1'
+	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds1a'
 });
 },{"../models/CommentModel.js":8,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],5:[function(require,module,exports){
 
@@ -12662,7 +12662,7 @@ var ppost = require("../models/PostModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: ppost,
-	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2'
+	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2a'
 });
 },{"../models/PostModel.js":9,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],6:[function(require,module,exports){
 
@@ -12676,7 +12676,7 @@ var upost = require("../models/UserModel.js");
 
 module.exports = Backbone.Collection.extend({
 	model: upost,
-	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds3'
+	url: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds3a'
 });
 },{"../models/UserModel.js":10,"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],7:[function(require,module,exports){
 var $ = require("jquery");
@@ -12702,6 +12702,8 @@ $(document).ready(function() {
 	var postlist = new POSTCOLLECTION();
 	var commentlist = new COMMENTCOLLECTION();
 	var userlist = new USERCOLLECTION();
+
+
 
 	var routerConfig = {
 		routes: {
@@ -12765,13 +12767,15 @@ $(document).ready(function() {
 		if(userIsInList){
 			$('#whoops').hide();
 			currentuser.current = $('#login-name').val();
-			userIsInList.set({logged_in: true});
+			//userIsInList.set({logged_in: true});
 			var user =  $('#login-name').val();				
 			myRouter.navigate('profile/'+user, {trigger: true});
 		}
 		else{$('#whoops').html('Your username and or password is incorrect.');
 		}			
 	});
+
+	
 
 	$('#register-form').on('submit', function(e){
 		e.preventDefault();
@@ -12791,6 +12795,7 @@ $(document).ready(function() {
 		}
 	});
 
+
 	
 	$('#addpost').on('submit', function(e) {
 		e.preventDefault();
@@ -12802,8 +12807,11 @@ $(document).ready(function() {
 		});
 		newpost.save();
 		postlist.add(newpost);
+		myRouter.navigate('feed', {trigger: true})
 		
 	});
+
+
 
 	
 	console.log(postlist);
@@ -12830,16 +12838,20 @@ $(document).ready(function() {
 			commentlist.add(newcomment);
 		})
 	});
+
+
+		
 	
 	commentlist.on('add', function(newCOMMENT) {
 		console.log("comment added");
 		var commenthtml = cbuilder({model: newCOMMENT});
 		var post_id = newCOMMENT.get('post_id');
-		var postMODEL = postlist.get(post_id);
+		var postMODEL = postlist.get('post_id');
 
-		$("[data-cid='"+postMODEL.cid+"'] .comment-list").append(commenthtml);
+		$("[data-cid='"+post_id+"'] .comment-list").append(commenthtml);
 	});
 
+	
 });
 
 
@@ -12873,7 +12885,7 @@ module.exports = Backbone.Model.extend({
 		post_id: null,
 		user_id:null
 	},
-	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds1',
+	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds1a',
 	idAttribute: '_id'
 });
 },{"backbone":1,"backbone/node_modules/underscore":2,"jquery":3}],9:[function(require,module,exports){
@@ -12891,7 +12903,7 @@ module.exports = Backbone.Model.extend({
 		no_likes: 0,
 		user_id: null
 	},
-	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2',
+	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2a',
 	idAttribute: '_id'
 });
 
@@ -12911,7 +12923,7 @@ module.exports = Backbone.Model.extend({
 		logged_in: false
 		
 	},
-	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds3',
+	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds3a',
 	idAttribute: '_id'
 });
 
