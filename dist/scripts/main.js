@@ -165,7 +165,7 @@ $(document).ready(function() {
 		console.log("comment added");
 		var commenthtml = cbuilder({model: newCOMMENT});
 		var post_id = newCOMMENT.get('post_id');
-		var postMODEL = postlist.get('post_id');
+		var postMODEL = postlist.get(post_id);
 
 		$("[data-cid='"+post_id+"'] .comment-list").append(commenthtml);
 	});
