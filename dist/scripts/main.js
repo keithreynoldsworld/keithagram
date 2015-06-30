@@ -60,13 +60,15 @@ $(document).ready(function() {
 
 		profile: function(name) {
 			$('#register').hide();
-			$('#feed').hide();
+			$('#feed').show();
 			$('#profile').show();
 			$('#login').hide();
 			$('#addpost').show();
 		}
 		
 	};
+
+	$('#profile').html(ubuilder({currentuser}));
 
 	var app = Backbone.Router.extend(routerConfig);
 
@@ -86,6 +88,8 @@ $(document).ready(function() {
 		if(userIsInList){
 			$('#whoops').hide();
 			currentuser.current = $('#login-name').val();
+			$('#profile').html(ubuilder({currentuser}));
+			
 			//userIsInList.set({logged_in: true});
 			var user =  $('#login-name').val();				
 			myRouter.navigate('profile/'+user, {trigger: true});
@@ -104,6 +108,7 @@ $(document).ready(function() {
 		});
 		newUser.save();
 		currentuser.current=$('#register-name').val();
+		$('#profile').html(ubuilder({currentuser}));
 		var query =  $('#register-name').val();
 		myRouter.navigate('profile/'+query, {trigger: true})
 	});
@@ -126,7 +131,7 @@ $(document).ready(function() {
 		});
 		newpost.save();
 		postlist.add(newpost);
-		myRouter.navigate('feed', {trigger: true})
+		myRouter.navigate('profile/'+ currentuser.current, {trigger: true})
 		
 	});
 
@@ -151,7 +156,8 @@ $(document).ready(function() {
 
 			var newcomment = new COMMENTMODEL({
 				text: COMMENTINPUT.val(),
-				post_id: newPost.cid
+				post_id: newPost.cid,
+				user: currentuser.current
 			});
 			newcomment.save();
 			commentlist.add(newcomment);
@@ -162,13 +168,15 @@ $(document).ready(function() {
 		
 	
 	commentlist.on('add', function(newCOMMENT) {
-		console.log("comment added");
+		var U = newCOMMENT.get('user');
+		var UM = userlist.get(U);
 		var commenthtml = cbuilder({model: newCOMMENT});
 		var post_id = newCOMMENT.get('post_id');
 		var postMODEL = postlist.get(post_id);
 
 		$("[data-cid='"+post_id+"'] .comment-list").append(commenthtml);
 	});
+
 
 	
 });

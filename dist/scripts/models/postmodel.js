@@ -12,6 +12,20 @@ module.exports = Backbone.Model.extend({
 		no_likes: 0,
 		user_id: null
 	},
+	validate: function(attr, options){
+		if(attr.caption === ""){
+			return "The caption must not be empty";
+		} 
+
+		if(attr.url === ""){
+			return "The picture url field must not be empty"
+		}
+
+
+		else {
+			return false;
+		}
+	},
 	urlRoot: 'http://tiny-pizza-server.herokuapp.com/collections/keithedwardreynolds2a',
 	idAttribute: '_id'
 });
